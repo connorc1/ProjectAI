@@ -34,6 +34,7 @@ public class NPCBehaviourView : MonoBehaviour {
 		//npcDialogue = gameObject.transform.GetChild (0).gameObject;
 	}
 
+	//Interprets the taskNode to set the NPC to do the correct behaviour
 	public void interpretId (taskNode item)
 	{
 		switch(item.taskIdentifier)

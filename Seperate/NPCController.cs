@@ -7,6 +7,7 @@ using UnityEngine;
 
 /* Public Functions & Variables: 
  *accepts inputs and converts it to commands for the model or view
+ *This file is the main file which controls the NPC.
  */
 
 //
@@ -20,6 +21,7 @@ public class NPCController : MonoBehaviour {
 	private TimeOfDay lastNPCUpdate;		
 			//Link to world time
 	private WorldTime TIME;
+
 
 	void Awake()
 	{
@@ -40,6 +42,7 @@ public class NPCController : MonoBehaviour {
 	{
 		nextUpdate += Time.deltaTime;
 
+		//This delays updates to every 10 seconds or when needed rather than every frame to save CPU processing.
 		if (nextUpdate >= 10.0f || updateRequired)
 		{
 			int minutesSince = TIME.minutesDifference (lastNPCUpdate);	//Gets the number of minutes since last update, used in determining water and sleep deprivation.
@@ -55,6 +58,7 @@ public class NPCController : MonoBehaviour {
 	}
 //############################################################################################################
 
+	//Updates the basic physiological needs of the human body
 	void updateBasicFirstLevelNeeds(int minutesSince) {
 		npcModel.energyExpenditure (minutesSince);
 		//reduce sleep
@@ -131,7 +135,7 @@ public class NPCController : MonoBehaviour {
 	}
 
 
-
+	//Functions which set up whether or not to look at proactive or reactive lists in the model. BASIC, NEEDS EXPANDING ON
 	private void performNextTask()
 	{
 		performProactiveList ();
@@ -159,7 +163,7 @@ public class NPCController : MonoBehaviour {
 	}
 }
 
-/* To Do
+/* Rough To Do
  * 1. Make drinking hydration percentage accurate, take factors into account also.
  * 2. redo case 12
  * 3. World Time fix to turn time into seconds total, eg 60 * 60 * 24

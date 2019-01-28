@@ -10,13 +10,15 @@ using UnityEngine;
  *directly manages data, logic, and the rules of the application
  */
 
+//A node used within a list. This is used to setup npc behaviour giving them a task to work towards.
 public struct taskNode
 {
-	public int taskIdentifier;
-	public Vector3 target;
+	public int taskIdentifier;		//A unique ID for the task such as water, clothing, shelter, a quest item, etc
+	public Vector3 target;			//If the target's location is known it is stored here
 	//public float distanceToTarget;
-	public int priority;
+	public int priority;			//Priority level of the task, e.g. such as a luxury table vs shelter from a nuclear blast and the fallout.
 
+	//Init function
 	public taskNode(int ID, int PRIORITY) 
 	{
 		taskIdentifier = new int();
@@ -25,19 +27,22 @@ public struct taskNode
 		priority = new int();
 		priority = PRIORITY;
 	}
+	//Assigning a location once it is known which is not always the case upon receiving the task.
 	public void assignTarget(Vector3 Target)
 	{
 		target = Target;
 	}
 }
 
+//Contains an array (might need changing to a list) for tasks which the npc is given.
 public struct taskContainer
 {
-	public taskNode[] pro_activeTasks;
+	public taskNode[] pro_activeTasks;		//Task list which stores tasks the NPC is actively trying to complete.
 	public int pro_activeCount;
-	public taskNode[] re_activeTasks;
+	public taskNode[] re_activeTasks;		//Task list for items which the npc notices going about their business, e.g. accepting a free sample of fudge while on their way back from work.
 	public int re_activeCount;
 
+	//Init function for the lists
 	public taskContainer(int size)
 	{
 		pro_activeTasks = new taskNode[size];
@@ -47,6 +52,8 @@ public struct taskContainer
 		re_activeCount = new int ();
 		re_activeCount = 0;
 	}
+
+	//Gets and returns the position of a task within a list and returns -1 on fail.
 	public int taskIndexP(int taskId)
 	{
 		for (int i = 0; i > pro_activeCount; i++)
@@ -59,6 +66,7 @@ public struct taskContainer
 		return -1;
 	}
 
+	//Adds a task to the pro-active list
 	public void addToPTask(taskNode toAdd)
 	{
 		taskNode[] copy = new taskNode[10];
@@ -98,6 +106,8 @@ public struct taskContainer
 			count++;
 		}
 	}
+
+	//Removes from the pro-active list
 	public void removeFromPTask (int taskID)
 	{
 		taskNode[] copy = new taskNode[10];
@@ -127,6 +137,7 @@ public struct taskContainer
 		pro_activeTasks = copy;
 	}
 
+	//Confirms if an item is not in the list as a boolean value for if statements
 	public bool isNotInList(int taskID)
 	{
 		foreach(taskNode i in pro_activeTasks)
@@ -144,8 +155,8 @@ public struct taskContainer
 
 //################################################################################################
 public class NPCModel : MonoBehaviour {
-	public taskContainer taskList;
-	public bool currentlyBusy;
+	public taskContainer taskList; 		//A local copy of the tasklist
+	public bool currentlyBusy;			//Boolean value to prevent action overlaying. e.g. Not drinking water while in the middle of an axe swing.
 
 //First level needs
 	public float sleep; public float sleepLossRate;//public float sleepSubstitute; 							
@@ -190,6 +201,7 @@ public class NPCModel : MonoBehaviour {
 		hasShelter = false;
 	}
 
+	//Cycles through maslows hierarchy and adds the next need to the list. NEEDS LOTS MORE WORK.
 	public void MHNCycle()
 	{
 		//First Level
