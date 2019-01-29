@@ -4,17 +4,17 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine;
 
-// Created by Connor Chamberlain on _.
-// Copyright © (YEAR) Connor Chamberlain. All rights reserved.
+// Created by Connor Chamberlain on 16/12/2018.
+// Copyright © (2018) Connor Chamberlain. All rights reserved.
 
 /* Public Functions & Variables: 
  *manages the viewble behaviour within the game. This is where most of the programming for specifics is done.
  */
 
 //
-public class NPCBehaviourView : MonoBehaviour {
-	public NavMeshAgent agent;
-	public npcInventory npcInventory;
+public static class NPCBehaviourView {
+	/*public NavMeshAgent agent;
+	//public npcInventory npcInventory;
 	NPCModel npcModel;
 	NPCController npcController;
 	DialogueController npcSpeachBox;
@@ -26,15 +26,15 @@ public class NPCBehaviourView : MonoBehaviour {
 
 	void Awake()
 	{
-		npcInventory = gameObject.GetComponent<npcInventory> ();
+		//npcInventory = gameObject.GetComponent<npcInventory> ();
 		npcModel = GetComponent<NPCModel> ();
 		npcController = GetComponent<NPCController> ();
 		agent = GetComponent<NavMeshAgent> ();	
 		npcSpeachBox = GetComponent<DialogueController> ();
 		//npcDialogue = gameObject.transform.GetChild (0).gameObject;
-	}
+	}*/
 
-	public void interpretId (taskNode item)
+	public static void interpretId (taskNode item)
 	{
 		switch(item.taskIdentifier)
 		{
@@ -76,7 +76,6 @@ public class NPCBehaviourView : MonoBehaviour {
 			break;
 		case 23: //EMPLOYMENT
 			//Unless there are any overrides
-			agent.destination = npcModel.workPlaceLocation;
 			break;
 		case 24: //RESOURCES
 			break;
@@ -99,12 +98,12 @@ public class NPCBehaviourView : MonoBehaviour {
 			break;
 		}
 	}
-	private void FNDirectThreat() {}
-	private void FNFLOverride()	{}
-	private void FNExretion() {}
-	private void FNWater(taskNode item) 
+	private static void FNDirectThreat() {}
+	private static void FNFLOverride()	{}
+	private static void FNExretion() {}
+	private static void FNWater(taskNode item) 
 	{
-		npcSpeachBox.npcSpeaks (DialogueController.waterDialogue());
+		//npcSpeachBox.npcSpeaks (DialogueController.waterDialogue());
 		/*
 		bool success = true;
 		npcSpeaks (DialogueController.waterDialogue (), true);
@@ -135,18 +134,18 @@ public class NPCBehaviourView : MonoBehaviour {
 		} else if (item.priority == 1) {
 
 		}*/}
-	private void FNFood() {}
-	private void FNSleep() {}
-	private void FNClothing() {}
-	private void FNWarmth() {}
-	private void FNShelter() {}
-	private void FNSLOverride() {}
-	private void FNSecurity() {}
-	private void FNSafety() {}
-	private void FNEmployment() {}
-	private void FNResources() {}
-	private void FNHealth() {}
-	private void FN() {}
+	private static void FNFood() {}
+	private static void FNSleep() {}
+	private static void FNClothing() {}
+	private static void FNWarmth() {}
+	private static void FNShelter() {}
+	private static void FNSLOverride() {}
+	private static void FNSecurity() {}
+	private static void FNSafety() {}
+	private static void FNEmployment() {}
+	private static void FNResources() {}
+	private static void FNHealth() {}
+	private static void FN() {}
 }
 /* 1. Direct threat
 * 10. First Level Overrides

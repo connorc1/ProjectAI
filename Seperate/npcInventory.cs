@@ -2,65 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Created by Connor Chamberlain on _.
-// Copyright © (YEAR) Connor Chamberlain. All rights reserved.
+// Created by Connor Chamberlain on 28/01/2019.
+// Copyright © (2019) Connor Chamberlain. All rights reserved.
 
 /* Public Functions & Variables: 
- *
+ *	 itemList
+ *	 waterContainerList
+ *	 ediblesList
+ *		NPCInventory()
+ *		void addToList(Item item)
+ *		void addToList(WaterContainer waterContainer)
+ *		void addToList(Edible foodItem)
  */
 
-
 //
-public class npcInventory : MonoBehaviour {
-	
-	/*Waterskin waterskin;
+public class NPCInventory : MonoBehaviour
+{
+	//List for each type here
+	List<Item> itemList;
+	List<WaterContainer> waterContainerList;
+	List<Edible> ediblesList;
 
-	public NPCModel npcModel;
+	//Function to both add and remove items. Also to check if its in the inventory + quantity
 
-	void Awake()
+	public NPCInventory()
 	{
-		waterskin = new Waterskin (2000);
-		npcModel = GetComponent<NPCModel> ();
+		itemList = new List<Item>();
+		waterContainerList = new List<WaterContainer>();
+		ediblesList = new List<Edible>();
 	}
 
-
-
-
-	public struct Waterskin
+	public void addToList(Item item)
 	{
-		public int mililitres;
-		public bool noWater;
-
-		public bool drinkSip()
-		{
-			if ((mililitres / 125) >= 1)
-			{
-				mililitres -= 125;
-				//npcModel.hydration += 1.325f;
-				return true;
-			}
-			else
-			{
-				//NPCModel.hydration
-			}
-			return false;
-		}
-
-		public void fillWaterskin(int AMOUNT)
-		{
-			mililitres += AMOUNT;
-		}
-		public Waterskin(int amount)
-		{
-			mililitres = amount;
-			if (amount == 0)
-			{
-				noWater = true;
-			}
-			else
-			{
-				noWater = false;
-			}
-		}
-	}*/
+		itemList.Add (item);
+	}
+	public void addToList(WaterContainer waterContainer)
+	{
+		waterContainerList.Add (waterContainer);
+	}
+	public void addToList(Edible foodItem)
+	{
+		ediblesList.Add (foodItem);
+	}
 }
