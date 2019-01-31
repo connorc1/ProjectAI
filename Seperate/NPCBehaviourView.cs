@@ -12,96 +12,11 @@ using UnityEngine;
  */
 
 //
-public static class NPCBehaviourView {
-	/*public NavMeshAgent agent;
-	//public npcInventory npcInventory;
-	NPCModel npcModel;
-	NPCController npcController;
-	DialogueController npcSpeachBox;
-
-	//GameObject npcDialogue;
-
-
-
-
-	void Awake()
-	{
-		//npcInventory = gameObject.GetComponent<npcInventory> ();
-		npcModel = GetComponent<NPCModel> ();
-		npcController = GetComponent<NPCController> ();
-		agent = GetComponent<NavMeshAgent> ();	
-		npcSpeachBox = GetComponent<DialogueController> ();
-		//npcDialogue = gameObject.transform.GetChild (0).gameObject;
-	}*/
-
-	public static void interpretId (taskNode item)
-	{
-		switch(item.taskIdentifier)
-		{
-		case -1:
-			//DEATH
-			break;
-		case 0:
-			//Magical overrides
-			break;
-		case 1:
-			//some function
-			break;
-		case 10: //FIRST LEVEL OVERRIDE
-			Debug.Log ("override");
-			break;
-		case 11: //EXCRETION
-			break;
-		case (int)MaslowsHierarchy.Water: //WATER
-			FNWater(item);
-			//Debug.Log("water");
-			break;
-		case 13: //FOOD
-			break;
-		case 14: //SLEEP
-			Debug.Log("sleep");
-			break;
-		case (int)MaslowsHierarchy.Clothing: //CLOTHING
-			FNClothing();
-			break;
-		case 16: //WARMTH 
-			break;
-		case 17: //SHELTER
-			break;
-		case 20: //SECOND LEVEL OVERRIDE
-			break;
-		case 21: //SECURITY
-			break;
-		case 22: //SAFETY
-			break;
-		case 23: //EMPLOYMENT
-			//Unless there are any overrides
-			break;
-		case 24: //RESOURCES
-			break;
-		case 25: //HEALTH
-			break;
-		case 26: //PROPERTY
-			break;
-		case 30: //THIRD LEVEL OVERRIDE
-			break;
-		case 31: //FRIENDS
-			break;
-		case 32: //RELATIONSHIP/INTIMACY
-			break;
-		case 33: //FAMILY
-			break;
-		case 51: 
-			break;
-		default:
-			Debug.Log ("BEHAVIOUR ERROR OUT OF SCOPE");
-			break;
-		}
-	}
-	private static void FNDirectThreat() {}
-	private static void FNFLOverride()	{}
-	private static void FNExretion() {}
-	private static void FNWater(taskNode item) 
+public class NPCBehaviourView : MonoBehaviour{
+	public void FNDirectThreat() {}
+	public void FNFLOverride()	{}
+	public void FNExretion() {}
+	public void FNWater(taskNode item) 
 	{
 		//npcSpeachBox.npcSpeaks (DialogueController.waterDialogue());
 		/*
@@ -134,18 +49,18 @@ public static class NPCBehaviourView {
 		} else if (item.priority == 1) {
 
 		}*/}
-	private static void FNFood() {}
-	private static void FNSleep() {}
-	private static void FNClothing() {}
-	private static void FNWarmth() {}
-	private static void FNShelter() {}
-	private static void FNSLOverride() {}
-	private static void FNSecurity() {}
-	private static void FNSafety() {}
-	private static void FNEmployment() {}
-	private static void FNResources() {}
-	private static void FNHealth() {}
-	private static void FN() {}
+	public void FNFood() {}
+	public void FNSleep() {}
+	public void FNClothing() {}
+	public void FNWarmth() {}
+	public void FNShelter() {}
+	public void FNSLOverride() {}
+	public void FNSecurity() {}
+	public void FNSafety() {}
+	public void FNEmployment() {}
+	public void FNResources() {}
+	public void FNHealth() {}
+	public void FN() {}
 }
 /* 1. Direct threat
 * 10. First Level Overrides

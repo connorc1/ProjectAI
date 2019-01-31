@@ -12,8 +12,16 @@ using UnityEngine;
 //
 public static class MaslowsHierarchyOfNeeds {
 
+	private static void energyExpenditure(ref NPCModel npcModel, int MINUTES)
+	{
+		float multiplier = MINUTES / 1440.0f;
+		npcModel.sleep -= npcModel.sleepLossRate * multiplier;
+		npcModel.hydration -= npcModel.hydration * multiplier;
+	}
+
 
 	public static void updateBasicFirstLevelNeeds(ref NPCModel npcModel,int minutesSince) {
+		energyExpenditure (ref npcModel, minutesSince);
 		//reduce sleep
 		//taskNode newProactive = new taskNode(4, null);
 		if (npcModel.sleep <= 90.0f) {
@@ -83,8 +91,9 @@ public static class MaslowsHierarchyOfNeeds {
 		{
 			npcModel.taskList.removeFromPTask (12);
 		}
-
 		//update food
+		//Determines the next action to take
+		Debug.Log(npcModel.hydration);
 	}
 
 	public static void MHNCycle(ref NPCModel npcModel)

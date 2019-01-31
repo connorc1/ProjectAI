@@ -13,27 +13,35 @@ using UnityEngine;
 public static class TaskController {
 	
 
-	public static void performNextTask(ref NPCModel npcModel)
+	public static void performNextTask(ref NPCModel npcModel, ref NPCBehaviourView npcBehaviourView)
 	{
-		performProactiveList (ref npcModel);
+		if (npcModel.taskList.re_activeCount > 0) {
+			if (npcModel.taskList.re_activeTasks [0].priority > npcModel.taskList.pro_activeTasks [0].priority) {
+				performReactiveList (ref npcModel, ref npcBehaviourView);
+			} else {
+				performProactiveList (ref npcModel, ref npcBehaviourView);
+			}
+		} else {
+			performProactiveList (ref npcModel, ref npcBehaviourView);
+		}
 	}
 
-	private static void performProactiveList(ref NPCModel npcModel)
+	private static void performProactiveList(ref NPCModel npcModel, ref NPCBehaviourView npcBehaviourView)
 	{
 		//look at proactive needs
 		if (npcModel.taskList.pro_activeCount <= 3) {
 			//populate with items.	
 			MaslowsHierarchyOfNeeds.MHNCycle(ref npcModel);
 		}
-		NPCBehaviourView.interpretId (npcModel.taskList.pro_activeTasks[0]);
+		NPCBehaviourController.interpretId (ref npcBehaviourView, npcModel.taskList.pro_activeTasks[0]);
 	}
 
-	private static void performReactiveList(ref NPCModel npcModel)
+	private static void performReactiveList(ref NPCModel npcModel, ref NPCBehaviourView npcBehaviourView)
 	{
 		//look as reactive needs
 		//if its populated with at least 1 item
 		if (npcModel.taskList.pro_activeCount > 0) {
-			NPCBehaviourView.interpretId (npcModel.taskList.pro_activeTasks [0]);
+			NPCBehaviourController.interpretId (ref npcBehaviourView, npcModel.taskList.pro_activeTasks [0]);
 		} 
 
 	}

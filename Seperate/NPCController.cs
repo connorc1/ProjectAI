@@ -13,6 +13,7 @@ using UnityEngine;
 public class NPCController : MonoBehaviour {
 			//Links to other parts of the MVC
 	private NPCModel npcModel;
+	private NPCBehaviourView npcBehaviourView;
 	//private NPCBehaviourView npcBehaviour;
 			//Variables for controlling Updates
 	private float nextUpdate;
@@ -24,6 +25,7 @@ public class NPCController : MonoBehaviour {
 	void Awake()
 	{
 		npcModel = GetComponent<NPCModel> ();
+		npcBehaviourView = GetComponent<NPCBehaviourView> ();
 		//npcBehaviour = GetComponent<NPCBehaviourView> ();
 		nextUpdate = 10.0F;
 		updateRequired = false;
@@ -46,8 +48,7 @@ public class NPCController : MonoBehaviour {
 			lastNPCUpdate = TIME.CurrentTime.time;						//Time since last update
 
 			MaslowsHierarchyOfNeeds.updateBasicFirstLevelNeeds (ref npcModel, minutesSince);					//Accounts for food, water, and sleep deprivation
-			TaskController.performNextTask (ref npcModel);											//Determines the next action to take
-
+			TaskController.performNextTask (ref npcModel, ref npcBehaviourView);		
 			//Updates variables to set up next update after x time.
 			updateRequired = false;
 			nextUpdate -= 10.0f;

@@ -25,7 +25,14 @@ public class NPCInventory : MonoBehaviour
 
 	//Function to both add and remove items. Also to check if its in the inventory + quantity
 
-	public NPCInventory()
+	/*public NPCInventory()
+	{
+		itemList = new List<Item>();
+		waterContainerList = new List<WaterContainer>();
+		ediblesList = new List<Edible>();
+	}*/
+
+	public void Awake()
 	{
 		itemList = new List<Item>();
 		waterContainerList = new List<WaterContainer>();

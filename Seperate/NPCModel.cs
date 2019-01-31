@@ -11,10 +11,10 @@ using UnityEngine;
  */
 
 //
-public class NPCModel
+public class NPCModel : MonoBehaviour
 {
 	public taskContainer taskList;
-	public NPCInventory inventory; 
+	public NPCInventory inventory;
 	public bool currentlyBusy;
 
 	//First level needs
@@ -37,10 +37,11 @@ public class NPCModel
 	//Fifth level
 	public bool hasLifeMission;
 
-	public NPCModel()
+	public void Awake()
 	{
+		inventory = gameObject.GetComponent<NPCInventory> ();
 		taskList = new taskContainer (10);
-		inventory = new NPCInventory ();
+
 		bool currentlyBusy = false;
 
 		sleep = 100.0f; sleepLossRate = 33.0f; sleepSubstitute = 0.0f;
@@ -53,6 +54,11 @@ public class NPCModel
 		isEmployed = false; timeToGoToWork = false;
 		workPlaceLocation = new Vector3 (0.0f, -999.0f, 0.0f);//workplace not yet set;
 	}
+
+	/*public NPCModel()
+	{
+		
+	}*/
 
 
 }
