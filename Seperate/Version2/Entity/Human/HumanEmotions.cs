@@ -29,7 +29,13 @@ using UnityEngine;
 *
 */
 
-//
+/*Purpose: 
+ *      Holds the emotions of the human. This will be used in altering the human behaviour scripts
+ *To Use: 
+ *      TBD
+ *To Do:
+ *      Properly flesh out and get working. Then research.
+ */
 public class HumanEmotions : EntityEmotions {
     float SJLower; float SJLowerLimit;
     float SJUpper; float SJUpperLimit;

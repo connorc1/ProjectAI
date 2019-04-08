@@ -12,7 +12,14 @@ using UnityEngine;
  *
  */
 
-//
+/*Purpose: 
+ *      Meant to MIMIC all of the elements of the human psyche.
+ *          Cannot contain all of the elements of the psyche (due to it still being a mystery and way to complex than necessary)
+ *To Use: 
+ *      TBD
+ *To Do: 
+ *      PLENTY
+ */
 public class HumanPsyche : EntityPsyche {
     protected HumanEmotions emotions;
     //List<ArcheTypes> archetypes, figure out how to best approach

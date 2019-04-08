@@ -11,7 +11,13 @@ using UnityEngine;
  *
  */
 
-//
+/*Purpose: 
+ *      A base human behaviour script. All (or most) behaviours will be routed through here to coresponding behaviour scripts
+ *To Use: 
+ *      TBD
+ *To Do: 
+ *      Fill with behaviours, plan behaviour structs, idling, etc
+ */
 public static class HumanBehaviour {
     public static void humanNeedsBehaviour(ref GameObject entity)
     {

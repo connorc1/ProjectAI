@@ -11,7 +11,14 @@ using UnityEngine;
  *
  */
 
-//
+/*Purpose: 
+ *      Holds all game related human knowledge. (Knowledge useful for prediction)
+ *To Use: 
+ *      TBD
+ *To Do: 
+ *      This file is likely to hold a MASSIVE amount of data, must use ref keyword or pointers or other forms of efficient data storage
+ *      
+ */
 public class HumanKnowledge : EntityKnowledge {
     
 }

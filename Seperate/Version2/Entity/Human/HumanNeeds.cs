@@ -22,13 +22,30 @@ using UnityEngine;
  *      public override void checkSurvivalNeeds()
  */
 
-//
+/*Purpose: 
+ *      To handle all of a humans survival needs. 
+ *To Use: 
+ *      TBD
+ *To Do:
+ *      Food, including stomach, fat, and muscle eating in starvation.
+ *      Finalise Water
+ *      Sleep
+ *      Behaviours for all survival needs
+ *      Unique decrement for usage, e.g. intense exercise decreases food and water at a faster rate
+ *          //Perhaps get the delta time of extreme exercise and multiply it within here
+ */
 public class HumanNeeds : EntityNeeds {
+    //Water Variables
     public float hydration; private float dehydrationRate;
+
+    //Food Variables
     public float food;
     //float StomachFullness, //Fat fullness, muscle //excretion		float foodPriority;
+
+    //Sleep Variables
     public float sleep; private float sleepLossRate;
 
+    //Decrements the survival needs with use over time, not considering faster or slower decrements
     public override void updateSurvivalNeeds(int Minutes)
     {
         base.updateSurvivalNeeds(Minutes);
@@ -42,6 +59,8 @@ public class HumanNeeds : EntityNeeds {
         //Debug.Log(hydration);
         checkSurvivalNeeds();
     }
+
+    //Checks if any of the needs has passed any thresholds
     public override void checkSurvivalNeeds()
     {
         if (sleep <= 90.0f)
@@ -149,6 +168,8 @@ public class HumanNeeds : EntityNeeds {
         }
     }
 
+    //Used externally
+    //Amount metric is to be determined
     public void rehydrated(float amount)
     {
         hydration = hydration + amount;
