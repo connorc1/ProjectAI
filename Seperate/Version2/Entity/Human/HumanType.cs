@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,9 @@ using UnityEngine;
 /* ### Inherited Items ###
  */
 /* Public Functions & Variables: 
- *
+ *      public bool isBedTime(DateTime worldTime)
+ *      public bool isTimeToWakeUp(DateTime worldTime)
+ *      public void wentToSleep(DateTime worldTime);
  */
 
 /*Purpose: 
@@ -26,12 +29,44 @@ using UnityEngine;
 public class HumanType : EntityType {
     public string Name;         //Humans name, might have to change to struct containing first and last names later, titles, ranks, etc
     public Gender gender;       //Entities gender, also used in the initialisation of the UMA asset
+    public DateTime bedTime;    //The time that the entity will generally go to sleep
+
+    public  DateTime wakeUpTime;   //Used to check if the human has had at least 8 hours sleep
     //public HumanBehaviourList mainBehaviour
+
+    public bool isBedTime(DateTime worldTime)
+    {
+        TimeSpan difference = bedTime.TimeOfDay - worldTime.TimeOfDay;      //How long is left until bedTime
+        TimeSpan threshold = new TimeSpan(0, 0, 0);                         //ZEROED Timespan for if statement comparison
+        //if the difference is negative its time for bed
+        if(difference < threshold)
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool isTimeToWakeUp(DateTime worldTime)
+    {
+        TimeSpan difference = wakeUpTime.TimeOfDay - worldTime.TimeOfDay;   //How long is left until wake up time
+        TimeSpan threshold = new TimeSpan(0, 0, 0);                         //ZEROED Timespan for if statement comparison
+        //if the difference is negative its time for bed
+        if (difference < threshold)
+        {
+            return true;
+        }
+        return false;
+    }
+    public void wentToSleep(DateTime worldTime)
+    {
+        wakeUpTime = worldTime;
+        wakeUpTime.AddHours(8);
+    }
 
     public HumanSave saveHumanData(HumanSave save)
     {
         save.Name = Name;
         save.gender = gender;
+        save.bedTime = bedTime;
         return save;
     }
     public HumanType(HumanSave load)
@@ -43,5 +78,7 @@ public class HumanType : EntityType {
     {
         Name = "Veronica";
         gender = Gender.Female;
+        bedTime = new DateTime();
+        wakeUpTime = new DateTime();
     }
 }

@@ -22,3 +22,12 @@ using UnityEngine;
 public class HumanKnowledge : EntityKnowledge {
     
 }
+
+public struct HomeOwner
+{
+    public GameObject houseMain;
+    public GameObject bed;
+    
+
+    //through get component... houseScript houseData
+}

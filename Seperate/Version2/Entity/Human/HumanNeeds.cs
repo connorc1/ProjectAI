@@ -45,24 +45,33 @@ public class HumanNeeds : EntityNeeds {
     //Sleep Variables
     public float sleep; private float sleepLossRate;
 
+    //Settlement Variable   public GameObject Shelter
+    public GameObject currentSettlement;
+    public GameObject currentHouse;
+
     //Decrements the survival needs with use over time, not considering faster or slower decrements
     public override void updateSurvivalNeeds(int Minutes)
     {
         base.updateSurvivalNeeds(Minutes);
-
+        Debug.Log("Human->Needs-><color=yellow>updateSurvivalNeeds():</color> \n<color=green>    updating survival needs</color>", this);
+        if(Minutes < 0)
+        {
+            Minutes = 0;
+        }
         //update
-        float multiplier = (dehydrationRate / 1440.0f);//1440.0f) 1440 is the number of minutes in a day
-        //sleep -= sleepLossRate * multiplier;
-        hydration = hydration - (((float)Minutes) * multiplier);
-        //Debug.Log(Minutes);
-        //hydration -= 10.0f;
-        //Debug.Log(hydration);
+        float multiplier = (((float)Minutes) / 1440.0f) * 8;         //1440 is the number of minutes in a day, get multiplier for minutes
+        sleep = sleep - (sleepLossRate * multiplier);
+        hydration = hydration - (dehydrationRate * multiplier);
+
+        Debug.Log("Human->Needs-><color=yellow>updateSurvivalNeeds():</color><color=blue> STATUS  \n    Minutes Modifier: " + Minutes + "\tHydration: " + hydration + "\tSleep: " + sleep + " </color> ", this);
         checkSurvivalNeeds();
+        Debug.Log("Human->Needs-><color=yellow>updateSurvivalNeeds():</color> \n<color=green>    Completed survival needs</color>", this);
     }
 
     //Checks if any of the needs has passed any thresholds
     public override void checkSurvivalNeeds()
     {
+        Debug.Log("Human->Needs->updateSurvivalNeeds()-><color=yellow>CheckSurvivalNeeds():</color>\n    <color=green>Checking survival thresholds</color>", this);
         if (sleep <= 90.0f)
         {
             if (sleep <= 85.0f)
@@ -85,42 +94,49 @@ public class HumanNeeds : EntityNeeds {
                                     {
                                         SurvivalTask newTask = new SurvivalTask(SurvivalNeeds.Sleep, 1);
                                         addSurvivalNeed(newTask, false);
+                                        Debug.Log("            <color=orange>ADD NEED: Priority 1 (sleep)</color>", this);
                                     }
                                 }
                                 else
                                 {
                                     SurvivalTask newTask = new SurvivalTask(SurvivalNeeds.Sleep, 2);
                                     addSurvivalNeed(newTask, false);
+                                    Debug.Log("            <color=orange>ADD NEED: Priority 2 (sleep)</color>", this);
                                 }
                             }
                             else
                             {
                                 SurvivalTask newTask = new SurvivalTask(SurvivalNeeds.Sleep, 3);
                                 addSurvivalNeed(newTask, false);
+                                Debug.Log("            <color=orange>ADD NEED: Priority 3 (sleep)</color>", this);
                             }
                         }
                         else
                         {
                             SurvivalTask newTask = new SurvivalTask(SurvivalNeeds.Sleep, 4);
                             addSurvivalNeed(newTask, false);
+                            Debug.Log("            <color=orange>ADD NEED: Priority 4 (sleep)</color>", this);
                         }
                     }
                     else
                     {
                         SurvivalTask newTask = new SurvivalTask(SurvivalNeeds.Sleep, 5);
                         addSurvivalNeed(newTask, false);
+                        Debug.Log("            <color=orange>ADD NEED: Priority 5 (sleep)</color>", this);
                     }
                 }
                 else
                 {
                     SurvivalTask newTask = new SurvivalTask(SurvivalNeeds.Sleep, 6);
                     addSurvivalNeed(newTask, false);
+                    Debug.Log("            <color=orange>ADD NEED: Priority 6 (sleep)</color>", this);
                 }
             }
             else
             {
                 SurvivalTask newTask = new SurvivalTask(SurvivalNeeds.Sleep, 7);
-                addSurvivalNeed(newTask, true);
+                addSurvivalNeed(newTask, false);
+                Debug.Log("            <color=orange>ADD NEED: Priority 7 (sleep)</color>", this);
             }
         }
 
@@ -141,31 +157,54 @@ public class HumanNeeds : EntityNeeds {
                         {
                             SurvivalTask newTask = new SurvivalTask(SurvivalNeeds.Water, 1);
                             addSurvivalNeed(newTask, false);
+
+                            Debug.Log("            <color=orange>ADD NEED: Priority 1 (water)</color>", this);
                         }
                     }
                     else
                     {
                         SurvivalTask newTask = new SurvivalTask(SurvivalNeeds.Water, 2);
                         addSurvivalNeed(newTask, false);
+
+                        Debug.Log("            <color=orange>ADD NEED: Priority 2 (water)</color>", this);
                     }
                 }
                 else
                 {
                     SurvivalTask newTask = new SurvivalTask(SurvivalNeeds.Water, 3);
                     addSurvivalNeed(newTask, false);
+
+                    Debug.Log("            <color=orange>ADD NEED: Priority 3 (water)</color>", this);
                 }
             }
             else
             {
                 SurvivalTask newTask = new SurvivalTask(SurvivalNeeds.Water, 4);
                 addSurvivalNeed(newTask, false);
+                Debug.Log("            <color=orange>ADD NEED: Priority 4 (water)</color>", this);
             }
         }
-        else
+        Debug.Log("Human->Needs->updateSurvivalNeeds()-><color=yellow>CheckSurvivalNeeds():</color>\n    <color=green>Completed survival thresholds</color>", this);
+
+    }
+
+    //Removes an item from the survivalTasks if it is contained
+    public void metSurvivalNeed(SurvivalNeeds need)
+    {
+        int count = survivalTasks.Count;
+
+        if (count > 0)
         {
-            SurvivalTask newTask = new SurvivalTask(SurvivalNeeds.Water, 4);
-            addSurvivalNeed(newTask, true);
+            for (int i = 0; i < count; i++)
+            {
+                if (survivalTasks[i].need == need)
+                {
+                    survivalTasks.RemoveAt(i);
+                    i = count;
+                }
+            }
         }
+        checkSurvivalNeeds();
     }
 
     //Used externally
@@ -173,6 +212,7 @@ public class HumanNeeds : EntityNeeds {
     public void rehydrated(float amount)
     {
         hydration = hydration + amount;
+        metSurvivalNeed(SurvivalNeeds.Water);
     }
 
     public void saveHumanData(ref HumanSave save)
@@ -189,12 +229,17 @@ public class HumanNeeds : EntityNeeds {
         dehydrationRate = 33.33f;
         food = load.food;
         sleep = load.sleep;
+        sleepLossRate = 14.3f;
+        SettlementController temp = FindObjectOfType(typeof(SettlementController)) as SettlementController;
+        currentSettlement = temp.gameObject;
     }
     public HumanNeeds()
     {
         survivalTasks = new List<SurvivalTask>();
         hydration = 100.0f; dehydrationRate = 33.0f;
         food = 100.0f;
-        sleep = 100.0f;
+        sleep = 100.0f; sleepLossRate = 14.3f;
+        SettlementController temp = FindObjectOfType(typeof(SettlementController)) as SettlementController;
+        currentSettlement = temp.gameObject;
     }
 }

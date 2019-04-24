@@ -50,7 +50,7 @@ public class EntityTaskController : MonoBehaviour {
     public void pushTask(taskNode task)
     {
         //current task is not empty (-1 means empty)
-        if (currentTask.taskIdentifier != -1)
+        if (currentTask.taskIdentifier != Noun.invalid)
         {
             //not as important as current task
             if (task.priority < currentTask.priority)
@@ -86,7 +86,7 @@ public class EntityTaskController : MonoBehaviour {
         //Completed all tasks, none in backlog
         else
         {
-            taskNode copy = new taskNode(-1, 0);
+            taskNode copy = new taskNode(Noun.invalid, 999);
             currentTask = copy;
         }
     }
@@ -96,7 +96,7 @@ public class EntityTaskController : MonoBehaviour {
     {
         taskBacklog = new List<taskNode>();
         reactiveContainer = new List<taskNode>();
-        currentTask = new taskNode(-1, 0);
+        currentTask = new taskNode(Noun.invalid, 999);
     }
 
     //Init function for task controller using data, (loading old task controller)
@@ -109,16 +109,16 @@ public class EntityTaskController : MonoBehaviour {
 }
 
 [Serializable]
-public struct taskNode
+public class taskNode
 {
-    public int taskIdentifier; //Negative one is empty
+    public Noun taskIdentifier; //Negative one is empty
     private float xval;
     private float yval;
     private float zval;
     //public float distanceToTarget;
     public int priority;
 
-    public taskNode(int ID, int PRIORITY)
+    public taskNode(Noun ID, int PRIORITY)
     {
         taskIdentifier = new int();
         taskIdentifier = ID;

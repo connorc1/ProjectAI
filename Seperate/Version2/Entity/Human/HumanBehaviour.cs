@@ -22,18 +22,28 @@ public static class HumanBehaviour {
     public static void humanNeedsBehaviour(ref GameObject entity)
     {
         Human holder = entity.GetComponent<Human>();
+        Debug.Log("Human-><color=yellow>Behaviour(STATIC):</color>\n    <color=green>Begin humanBehaviour for needs</color>");
         switch (holder.entityNeeds.needOnList().need)
         {
             case SurvivalNeeds.Food:
+                Debug.Log("Human->HumanBehaviour(STATIC)->behaviour_needs->handleStarvation\n        <color=green>Begin</color>");
+                Behaviour_HumanNeeds.handleStarvation(ref holder, false);
+                Debug.Log("Human->HumanBehaviour(STATIC)->behaviour_needs->handleStarvation\n        <color=green>End</color>");
                 break;
             case SurvivalNeeds.Water:
-                holder.entityNeeds.rehydrated(5.0f);
-                Debug.Log(holder.entityNeeds.hydration);
-                holder.navAgent.destination = new Vector3(0, 10, 0);
+                Behaviour_HumanNeeds.handleHydration(ref holder, false);
                 break;
             case SurvivalNeeds.Sleep:
-                holder.entityNeeds.sleep = 100.0f;
+                Behaviour_HumanNeeds.handleSleep(ref holder, false);
                 break;
         }
+        Debug.Log("Human-><color=yellow>Behaviour(STATIC):</color>\n    <color=green>Completed humanBehaviour for needs</color>");
     }
 }
+
+/*Behaviour format
+ * Does the character have everything they can think of to perform the behaviour
+ * Special needs to wait
+ * Are they in an appropriate spot to perform behaviour, if not travel
+ * Once at destination perform action
+ */

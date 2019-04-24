@@ -43,13 +43,18 @@ public class EntityNeeds : ScriptableObject {
         int count = survivalTasks.Count;        //Local storage for number of survival tasks
 
         //Remove if already contained
-        for (int i = 0; i < count; i++)
+        if (count > 0)
         {
-            if (survivalTasks[i].need == task.need)
+            for (int i = 0; i < count; i++)
             {
-                survivalTasks.RemoveAt(i);
+                if (survivalTasks[i].need == task.need)
+                {
+                    survivalTasks.RemoveAt(i);
+                    i = count;
+                }
             }
         }
+        count = survivalTasks.Count;
         //If the user is intending to add the task
         if (!remove)
         {
@@ -58,28 +63,31 @@ public class EntityNeeds : ScriptableObject {
             {
                 survivalTasks.Add(task);
             }
-            //Add task in correct place
-            for (int i = 0; i < count; i++)
+            else
             {
-                //If the priorities are equal, prioritise by survivalNeed order (lowest number more important)
-                if (survivalTasks[i].priority == task.priority)
+                //Add task in correct place
+                for (int i = 0; i < count; i++)
                 {
-                    if ((int)survivalTasks[i].need < (int)task.need)
+                    //If the priorities are equal, prioritise by survivalNeed order (lowest number more important)
+                    if (survivalTasks[i].priority == task.priority)
+                    {
+                        if ((int)survivalTasks[i].need < (int)task.need)
+                        {
+                            survivalTasks.Insert(i, task);
+                            i = count + 1;
+                        }
+                    }
+                    //Add task if it is more important, (lower priority number)
+                    else if (survivalTasks[i].priority > task.priority)
                     {
                         survivalTasks.Insert(i, task);
                         i = count + 1;
                     }
-                }
-                //Add task if it is more important, (lower priority number)
-                else if (survivalTasks[i].priority > task.priority)
-                {
-                    survivalTasks.Insert(i, task);
-                    i = count + 1;
-                }
-                //Should the end of the tasks list be reached add it at the end due to it being of the least importance
-                else if (i == count -1)
-                {
-                    survivalTasks.Add(task);
+                    //Should the end of the tasks list be reached add it at the end due to it being of the least importance
+                    else if (i == count - 1)
+                    {
+                        survivalTasks.Add(task);
+                    }
                 }
             }
         }
@@ -115,7 +123,19 @@ public class EntityNeeds : ScriptableObject {
         }
         return false;
     }
-
+    //Gets the priority of a specific need
+    public int getNeedPriority(SurvivalNeeds need)
+    {
+        int count = survivalTasks.Count;
+        for (int i = 0; i < count; i++)
+        {
+            if (survivalTasks[i].need == need)
+            {
+                return survivalTasks[i].priority;
+            }
+        }
+        return 7;
+    }
     //### Overridable functions for derived classes ###//
 
     //Updates variables to show degredation/reduction/use

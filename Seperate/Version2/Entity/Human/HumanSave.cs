@@ -23,7 +23,7 @@ using UMA.CharacterSystem;
  *      default init function needs to be fully fleshed out also.
  *      Might want to look into a random npc generator in seperate script
  */
-[CreateAssetMenu(menuName = "HumanNPC")]
+//[CreateAssetMenu(menuName = "HumanNPC")]
 [Serializable]
 public class HumanSave {
     //GameObject data
@@ -56,6 +56,8 @@ public class HumanSave {
     //EntityType
     public string Name;
     public Gender gender;
+    public DateTime bedTime;
+    public DateTime wakeUpTime;
 
     //Psyche
     //Emotions
@@ -114,7 +116,7 @@ public class HumanSave {
     
         taskBacklog = new List<taskNode>();
         reactiveContainer = new List<taskNode>();
-        currentTask = new taskNode();
+        currentTask = new taskNode(Noun.invalid, 999);
         nextUpdate = 0.0f;
         lastUpdate = new DateTime();
         updateRequired = false;

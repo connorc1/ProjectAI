@@ -43,7 +43,7 @@ public class Human : Entity {
     private DynamicCharacterAvatar avatar;              //Local reference to UMA avatar
     private Dictionary<string, DnaSetter> dnaHolder;    //Local reference to an UMA avatars DNA, rarely used but might be needed for stat building, e.g. strength
     private string recipe;                              //String recipe for an UMA avatar, only needed on saving and loading
-
+    //public bool overrideEntityNeeds;                    //Boolean used to skip over entity needs
     private GameObject HUMANROOT;                       //Reference to the Human root gameobject. Might be redundant at this stage however
 
     //Used to add a listener for UMA
@@ -61,6 +61,9 @@ public class Human : Entity {
     {
         dnaHolder = avatar.GetDNA();
         gameObject.name = entityType.Name;
+        DateTime temp = getTime();
+        entityType.bedTime = new DateTime(temp.Year,
+            temp.Month, temp.Day, 13, temp.Minute, temp.Second);
     }
 
     //Loads a human
@@ -87,6 +90,7 @@ public class Human : Entity {
         navAgent.Warp(new Vector3(load.xloc, load.yloc, load.zloc));
         //gameObject.transform.position = new Vector3(load.xloc, load.yloc, load.zloc);
         gameObject.transform.localEulerAngles = new Vector3(load.xrot, load.yrot, load.zrot);
+        currentAction = new ActionContainer(PresentVerb.idling, Noun.invalid);
 
     }
     //Save the human into a file and return the file.
@@ -116,8 +120,8 @@ public class Human : Entity {
     //Sets up a default human
     void Awake()
     {
-        Debug.Log("Fully Awake");
         entityType = new HumanType();
+        entityController = new EntityTaskController();
         entityNeeds = new HumanNeeds();
         psyche = new HumanPsyche();
         currentlyBusy = false;
@@ -127,11 +131,13 @@ public class Human : Entity {
         HUMANROOT = null;
 
         nextUpdate = 0.0f;
+        //overrideEntityNeeds = false;
         WORLDTIME = GameObject.Find("WorldTime").GetComponent<WorldTime>();
         lastUpdate = WORLDTIME.WORLDTIME;
         updateRequired = true;
         HUMANROOT = gameObject;
         navAgent = gameObject.AddComponent<NavMeshAgent>();
+        currentAction = new ActionContainer(PresentVerb.idling, Noun.invalid);
     }
 
     //This is where all of the NPC processing is done
@@ -148,24 +154,29 @@ public class Human : Entity {
     {
         TimeSpan t = (WORLDTIME.WORLDTIME - lastUpdate);
         int minutesSince = (int)t.TotalMinutes;
-        Debug.Log("Hydration: " + entityNeeds.hydration);
+        //Debug.Log("Sleep: " + entityNeeds.sleep);
         updateRequired = false;
-
+        Debug.Log("<color=yellow>Human:</color> \n    <color=green>Updating survival needs</color>", this);
         entityNeeds.updateSurvivalNeeds(minutesSince);
+        Debug.Log("<color=yellow>Human: COMPLETED</color>\n    <color=green>Completed survival needs</color>", this);
         //do stuff here
 
         //Guaranteed to do perform entity needs
         if (!currentlyBusy && (entityNeeds.isInNeed()))
         {
+            Debug.Log("<color=yellow>Human:</color> \n    <color=green>Handling entity needs with behaviour</color>", this);
             HumanBehaviour.humanNeedsBehaviour(ref HUMANROOT);
+            Debug.Log("<color=yellow>Human: COMPLETED</color>\n    <color=green>Completed entity needs behaviour</color>", this);
         }
         //If not setup to perform standard need/task below
-        else { overrideEntityNeeds = true; }
+        else { Debug.Log("<color=yellow>Human:</color> \n    <color=green>no entity needs</color>", this); overrideEntityNeeds = true; }
 
         //Perform standard need/task
         if (overrideEntityNeeds)
         {
+            Debug.Log("<color=yellow>Human:</color> \n    <color=green>Performing next task, needs overriden</color>", this);
             //perform standard task
+            Debug.Log("<color=yellow>Human:</color> \n    <color=green>Completed next task</color>", this);
         }
         overrideEntityNeeds = false;
         lastUpdate = WORLDTIME.WORLDTIME;
